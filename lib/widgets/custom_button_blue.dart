@@ -2,10 +2,9 @@ import 'package:flutter/material.dart';
 
 class CustomButtonBlue extends StatelessWidget {
   final String text;
-  final Function() onPressed;
+  final Function()? onPressed;
 
-  const CustomButtonBlue(
-      {Key? key, required this.text, required this.onPressed})
+  const CustomButtonBlue({Key? key, required this.text, this.onPressed})
       : super(key: key);
 
   @override
@@ -17,7 +16,7 @@ class CustomButtonBlue extends StatelessWidget {
             ),
             primary: Colors.white,
             elevation: 2,
-            backgroundColor: Colors.blue),
+            backgroundColor: onPressed != null ? Colors.blue : Colors.grey),
         onPressed: onPressed,
         child: SizedBox(
             height: 55,
