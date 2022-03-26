@@ -83,8 +83,8 @@ class __FormState extends State<_Form> {
                     final res = await authService.login(
                         emailCtrl.text.trim(), passCtrl.text.trim());
                     if (res) {
-                      // TODO: navigate to home
-
+                      // TODO: connect a nuestro socket server
+                      Navigator.pushReplacementNamed(context, 'users');
                     } else {
                       showAlert(
                           context, 'Error', 'Correo o contraseña incorrectos');
