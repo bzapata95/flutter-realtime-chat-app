@@ -29,6 +29,28 @@ class AuthService with ChangeNotifier {
     await _storage.delete(key: 'token');
   }
 
+  Future<dynamic> register(String name, String email, String password) async {
+    isLoadingAuth = true;
+
+    final data = {'name': name, 'email': email, 'password': password};
+
+    final response = await http.post(Uri.parse('${Environment.apiUrl}/users'),
+        body: jsonEncode(data), headers: {'Content-Type': 'application/json'});
+
+    isLoadingAuth = false;
+
+    if (response.statusCode == 200) {
+      final loginResponse = loginResponseFromJson(response.body);
+      user = loginResponse.user;
+
+      await _saveToken(loginResponse.token);
+      return true;
+    } else {
+      final respBody = jsonDecode(response.body);
+      return respBody['error'];
+    }
+  }
+
   Future<bool> login(String email, String password) async {
     isLoadingAuth = true;
 
