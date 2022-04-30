@@ -1,0 +1,45 @@
+// To parse this JSON data, do
+//
+//     final messagesResponse = messagesResponseFromJson(jsonString);
+
+import 'dart:convert';
+
+List<MessagesResponse> messagesResponseFromJson(String str) =>
+    List<MessagesResponse>.from(
+        json.decode(str).map((x) => MessagesResponse.fromJson(x)));
+
+String messagesResponseToJson(List<MessagesResponse> data) =>
+    json.encode(List<dynamic>.from(data.map((x) => x.toJson())));
+
+class MessagesResponse {
+  MessagesResponse({
+    required this.from,
+    required this.to,
+    required this.message,
+    required this.createdAt,
+    required this.updatedAt,
+  });
+
+  String from;
+  String to;
+  String message;
+  DateTime createdAt;
+  DateTime updatedAt;
+
+  factory MessagesResponse.fromJson(Map<String, dynamic> json) =>
+      MessagesResponse(
+        from: json["from"],
+        to: json["to"],
+        message: json["message"],
+        createdAt: DateTime.parse(json["createdAt"]),
+        updatedAt: DateTime.parse(json["updatedAt"]),
+      );
+
+  Map<String, dynamic> toJson() => {
+        "from": from,
+        "to": to,
+        "message": message,
+        "createdAt": createdAt.toIso8601String(),
+        "updatedAt": updatedAt.toIso8601String(),
+      };
+}
