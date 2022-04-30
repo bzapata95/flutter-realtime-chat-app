@@ -1,5 +1,6 @@
 import 'package:chat_app/helpers/show_alert.dart';
 import 'package:chat_app/services/auth_service.dart';
+import 'package:chat_app/services/socket_service.dart';
 import 'package:chat_app/widgets/custom_button_blue.dart';
 import 'package:chat_app/widgets/custom_input.dart';
 import 'package:chat_app/widgets/labels_authentication.dart';
@@ -53,6 +54,7 @@ class __FormState extends State<_Form> {
   @override
   Widget build(BuildContext context) {
     final authService = Provider.of<AuthService>(context);
+    final socketService = Provider.of<SocketService>(context);
 
     return Container(
       margin: const EdgeInsets.only(top: 40),
@@ -83,8 +85,8 @@ class __FormState extends State<_Form> {
                     final res = await authService.login(
                         emailCtrl.text.trim(), passCtrl.text.trim());
                     if (res) {
-                      // TODO: connect a nuestro socket server
                       Navigator.pushReplacementNamed(context, 'users');
+                      socketService.connect();
                     } else {
                       showAlert(
                           context, 'Error', 'Correo o contraseña incorrectos');
